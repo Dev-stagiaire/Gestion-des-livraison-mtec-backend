@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Compte validé</title>
+    <style>
+        body {
+            margin: 0;
+            background: #f4f4f4;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .card {
+            max-width: 500px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,.08);
+        }
+
+        h2 {
+            color: #16a34a;
+        }
+
+        p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 13px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+
+    <h2>Compte validé</h2>
+
+    <p>Bonjour <strong>{{context.username}}</strong>,</p>
+
+    <p>Votre compte  a été validé avec succès.</p>
+
+    <p>Vous pouvez désormais vous connecter et utiliser les services de GL Livraison.</p>
+
+    <div class="footer">
+        GL Livraison
+    </div>
+
+</div>
+
+</body>
+</html>

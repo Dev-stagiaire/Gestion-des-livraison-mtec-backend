@@ -1,0 +1,177 @@
+### Racing request
+GET http://localhost:3000/
+
+###
+GET http://localhost:3000/metadata/uniques
+
+###
+GET  http://localhost:3000/auth/me
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODcxMzQxNTEsImV4cCI6MTc4NzEzNzc1MX0.JnIy5KWxz-YdgAXjQhLUCUr7mKPnbhkfT94Au8_GNu8
+
+### LOGIN OK
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "email": "vanonanotahina@gmail.com",
+    "password": "innoventis"
+}
+
+### SEND MAIL OK
+POST http://localhost:3000/send/mail
+Content-Type: application/x-www-form-urlencoded
+
+
+sendTo=vanonanotahina@gmail.com
+&subject=Test envoi mail
+&template=validation-user
+&context={ "username": "Cah Myam"}
+
+
+### CREATE ROLE OK
+POST  http://localhost:3000/role/create
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODU5Mzc2NTIsImV4cCI6MTc4NTk0MTI1Mn0.GjoygbAHGtx2yPQUqC3AhZpWTJF9VErkfUbELmj5TUI
+
+name=Administrateur
+
+### FIND ALL ROLES OK
+GET http://localhost:3000/role/find/all
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODczMTQzMDMsImV4cCI6MTc4NzMxNzkwM30.geXZ3ZKrfBROE1jMLMcjk96yEnMd5dYJrSsIsTpaY70
+
+{
+    "limit": 10,
+    "offset": 0
+}
+
+### FIND ROLE BY ID  OK
+GET http://localhost:3000/role/find/21
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODU5Mzc2NTIsImV4cCI6MTc4NTk0MTI1Mn0.GjoygbAHGtx2yPQUqC3AhZpWTJF9VErkfUbELmj5TUI
+
+### UPDATE ROLE OK
+PATCH  http://localhost:3000/role/update/24
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODU5Mzc2NTIsImV4cCI6MTc4NTk0MTI1Mn0.GjoygbAHGtx2yPQUqC3AhZpWTJF9VErkfUbELmj5TUI
+
+name=Stagiaire
+
+### CREATE PERMISSION OK
+POST  http://localhost:3000/permission/create
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODU4NDE4ODIsImV4cCI6MTc4NTg0NTQ4Mn0.19eVd5UUIbcWT9JH3OLsXPskL6Nou0-ZH2Zvj_4LLcE
+
+name=Stagiare
+
+### FIND ALL PERMISSIONS OK
+GET http://localhost:3000/permission/find/all
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODU4Mjc2ODYsImV4cCI6MTc4NTgzMTI4Nn0.gnl_Sbe4ADMPq0IftjkhVaGISjGvvGS4xmWthN3pd00
+
+{
+    "limit": 10,
+    "offset": 0
+}
+
+### FIND PERMISSION BY ID OK
+GET http://localhost:3000/permission/find/2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODU4Mjc2ODYsImV4cCI6MTc4NTgzMTI4Nn0.gnl_Sbe4ADMPq0IftjkhVaGISjGvvGS4xmWthN3pd00
+
+### UPDATE PERMISSION OK
+PATCH  http://localhost:3000/permission/update/2
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODU4NDAwMDQsImV4cCI6MTc4NTg0MzYwNH0.mFBoR_MnpaecMzCrcYeQS3zNO0BKA_-QMsbB0oZYGP8
+
+name=CREATE_ROLE,
+
+### GRANT PERMISSION ROLE OK
+POST http://localhost:3000/role/grant/permission/
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODU5OTUwMDMsImV4cCI6MTc4NTk5ODYwM30.qQNZD3WQJlNZ022UwfjdYhNQC7_f8uzoyfvYsmyNDyI
+
+role_id=24
+&permission_id=12
+
+### REVOKE PERMISSION ROLE OK
+POST http://localhost:3000/role/revoke/permission/
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODYwMDA0NTIsImV4cCI6MTc4NjAwNDA1Mn0.tr5oUDNaxwaZZoSubsQHc_7EAxEvOxXaIZCs744ztFg
+
+role_id=24
+&permission_id=12
+
+### CREATE USER OK
+POST  http://localhost:3000/user/create
+Content-Type: application/x-www-form-urlencoded
+
+first_name=Rakoto
+&last_name=
+&email=rakoto@gmail.com
+&password=innoventis
+&avatar_url=
+&phone=0345678965
+
+### VALIDATE USER ACCOUNT OK
+POST  http://localhost:3000/user/validate/15
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODc1NjEwODIsImV4cCI6MTc4NzU2NDY4Mn0.-nGJbv9GY-5-r7BNeTroi22JFwQGuQnQvkL926JuJkM
+
+is_active=true
+&role_id=23
+
+### UPDATE USER OK
+PATCH  http://localhost:3000/user/update/15
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODgzMzIxNzksImV4cCI6MTc4ODMzNTc3OX0.w39DKTUHh-rkfKM_JMFQLtESFu3FLwPkQJOXWsza84w
+
+first_name=Rakotobe
+&last_name=solonavalona
+&avatar_url=
+&role_id=22
+
+### CHANGE EMAIL OK
+PATCH  http://localhost:3000/user/change/email/sendLink/15
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODU5MzAyMTAsImV4cCI6MTc4NTkzMzgxMH0.8OLv-Kt684BYZ5peQv7f55cFD1wq36ISdw_5y-J-n-Y
+
+new_email=tsantaranaivoson.orange@gmail.com
+###
+GET http://localhost:3000/user/change/email/15?token=$2b$10$blW5W0W60C7WFn20AxdE.O5vPyAguoibDY9.L7cmkcT3SkGVQ0Zse
+
+
+### CHANGE PASSWORD OK
+PATCH  http://localhost:3000/user/change/password/sendLink/15
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODU5MzM4MzksImV4cCI6MTc4NTkzNzQzOX0.Ok_FvBX6KkmahyKeDTF8pzQwarkP4-cv--Uz-6-1EtY
+
+new_password=innoventis2
+
+###
+GET http://localhost:3000/user/change/password/15?token=$2b$10$e2YmGWid3gls8Hwlq.8h/.WwfxpoY/O9LP84QIslN3AoLoV.DDaqm
+
+
+### FIND ALL USERS OK => pagination | filtre | selection
+GET http://localhost:3000/user/find/all?limit=10&offset=0&role=ADMIN&is_active=true
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODc1NjEwODIsImV4cCI6MTc4NzU2NDY4Mn0.-nGJbv9GY-5-r7BNeTroi22JFwQGuQnQvkL926JuJkM
+
+
+### SEARCH USERS OK => pagination | recherche | filtre | selection
+GET http://localhost:3000/user/find/search?search_term=tsanta&limit=10&offset=0&role=&is_active=
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODc1NjEwODIsImV4cCI6MTc4NzU2NDY4Mn0.-nGJbv9GY-5-r7BNeTroi22JFwQGuQnQvkL926JuJkM
+
+
+### FIND USER BY ID OK
+GET http://localhost:3000/user/find/15
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODc1NjEwODIsImV4cCI6MTc4NzU2NDY4Mn0.-nGJbv9GY-5-r7BNeTroi22JFwQGuQnQvkL926JuJkM
+
+
+### FIND BY EMAIL OK
+GET http://localhost:3000/user/find?email=tsantaranaivoson.orange@gmail.com
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODc1NjEwODIsImV4cCI6MTc4NzU2NDY4Mn0.-nGJbv9GY-5-r7BNeTroi22JFwQGuQnQvkL926JuJkM
+
