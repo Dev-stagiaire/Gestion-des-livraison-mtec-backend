@@ -31,6 +31,10 @@ export class RoleService {
   async create(createRoleDto: CreateRoleDto): Promise<Role> {
     let role = new Role();
     role = this.generic.transfert(role, createRoleDto);
+    const permissions = await Promise.all(createRoleDto.permission_ids.map((permissionId) => {
+      return this.permissionService.findById(permissionId);
+    }));
+    role.permissions = permissions;
     return await this.roleRepository.save(role);
   }
 
@@ -70,10 +74,20 @@ export class RoleService {
 
   async update(id: number, updateRoleDto: UpdateRoleDto): Promise<Role> {
     try {
+      console.log("PERMISSION IDS :");
+      console.dir(updateRoleDto.permission_ids);
       let role = await this.findById(id);
+      const permissions  = await Promise.all(
+          updateRoleDto.permission_ids.map((permissionId) => {
+             return this.permissionService.findById(permissionId);
+          })
+      );
       if (role) {
-        role = this.generic.transfert(role, updateRoleDto);
-        return await this.roleRepository.save(role);
+          role.name = updateRoleDto.name;
+          role.permissions = permissions;
+          console.log("ROLE TO EDIT");
+          console.dir(role);
+          return await this.roleRepository.save(role);
       }
       else{
         throw new NotFoundException("Role introuvale");
@@ -92,45 +106,5 @@ export class RoleService {
         role.is_deleted= true;
         await this.roleRepository.save(role);
         return true;
-  }
-
-  async grantPermission(rolePermissionsDto: RolePermissionsDto): Promise<boolean>{
-
-      const role = await this.findById(rolePermissionsDto.role_id);
-      const permission = await this.permissionService.findById(rolePermissionsDto.permission_id);
-      if (role && permission) {
-        const length = role.permissions.length;
-        if (role.permissions.includes(permission)) {
-            const new_length = role.permissions.push(permission);
-            if (new_length > length) {
-              this.roleRepository.save(role);
-              return true;
-            }
-            else{
-              return false;
-            }
-        }
-        else{
-          throw new BadRequestException("Already grant !");
-        }
-       
-      }
-      else{
-        throw new NotFoundException();
-      }
-  }
-
-  async revokePermission(rolePermissionsDto: RolePermissionsDto){
-
-      const role = await this.findById(rolePermissionsDto.role_id);
-      const index = role.permissions.findIndex(permission => permission.id === Number(rolePermissionsDto.permission_id));
-      if (index !== -1) {
-        role.permissions.splice(index, 1);
-        await this.roleRepository.save(role);
-      }
-      else{
-        throw new NotFoundException("Permission not found");
-      }
-     
   }
 }

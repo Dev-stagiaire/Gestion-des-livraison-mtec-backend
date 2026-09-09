@@ -1,26 +1,18 @@
-import { BadRequestException, ConflictException, Global, Injectable, InternalServerErrorException, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ValidateUserDto } from './dto/validate-user.dto';
-import { EntityTarget, FindOptionsRelations, FindOptionsWhere, Like, ObjectLiteral, Repository } from 'typeorm';
+import { FindOptionsRelations, FindOptionsWhere, Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { Role } from 'src/role/entities/role.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as bcrypt from 'bcrypt';
-import { ChangePasswordUserDto } from './dto/change-password-user.dto';
 import { MailService } from 'src/common/mail/mail.service';
-import { randomInt } from 'crypto';
-import { dir, error } from 'console';
 import { ResetTokens } from 'src/reset_tokens/entities/reset-tokens.entity';
 import { Generic } from 'src/generic/generic.service';
 import { RoleService } from 'src/role/role.service';
 import { SentMessageInfo } from 'nodemailer';
-import { filter, retry } from 'rxjs';
 import { MatchOtpResponse } from 'src/common/interfaces/match-otp-response.interface';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
-import { Matches } from 'class-validator';
-import { relative } from 'path';
-import { permission } from 'process';
 import { FilterUserDto } from './dto/filter-user.dto';
 import { CreateMailDto } from 'src/common/mail/dto/create-mail.dto';
 import { QueryDto } from 'src/common/dto/query.dto';
@@ -48,7 +40,7 @@ export class UserService {
 
   ){};
 
-  async create(createUserDto: CreateUserDto): Promise<User>{
+  async create(createUserDto: CreateUserDto): Promise<SentMessageInfo>{
 
       try {
 
@@ -67,10 +59,20 @@ export class UserService {
           }
           user.is_active = false;
 
-          const hash = await this.generic.hasher(createUserDto.password)
+          const user_saved = await this.userRepository.save(user);
+          const template = "activate-user";
+          const subject = "Activez votre compte";
+          const context = {
+              "username": user_saved.first_name,
+              "activationUrl": process.env.BASE_URL + `/users/active/account/${user_saved.id}`,
+          }
 
-          user.password = hash;
-          return this.userRepository.save(user);
+          const createMailDto = new CreateMailDto();
+          createMailDto.sendTo = user_saved.email;
+          createMailDto.subject = subject;
+          createMailDto.template = template;
+          createMailDto.context = context;
+          return this.mailService.sendMail(createMailDto);
         
       } catch (error) {
           Logger.error(error);

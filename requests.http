@@ -23,10 +23,10 @@ POST http://localhost:3000/send/mail
 Content-Type: application/x-www-form-urlencoded
 
 
-sendTo=vanonanotahina@gmail.com
-&subject=Test envoi mail
-&template=validation-user
-&context={ "username": "Cah Myam"}
+sendTo=mihavanona@gmail.com
+&subject=Activation de votre compte
+&template=activate-user
+&context={ "username": "Cah Myam", "activationUrl": "http://localhost:5173/login"}
 
 
 ### CREATE ROLE OK
@@ -83,9 +83,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuY
 ### UPDATE PERMISSION OK
 PATCH  http://localhost:3000/permission/update/2
 Content-Type: application/x-www-form-urlencoded
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODU4NDAwMDQsImV4cCI6MTc4NTg0MzYwNH0.mFBoR_MnpaecMzCrcYeQS3zNO0BKA_-QMsbB0oZYGP8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODg3NjczMjIsImV4cCI6MTc4ODc3MDkyMn0.netQYCxd1DJJtnAKcLjTvpOTB0eGeFSmlKL73jw168g
 
-name=CREATE_ROLE,
+name=CREATE_ROLEd
 
 ### GRANT PERMISSION ROLE OK
 POST http://localhost:3000/role/grant/permission/

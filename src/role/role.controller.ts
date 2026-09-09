@@ -39,16 +39,4 @@ export class RoleController {
   remove(@Param('id') id: string) {
     return this.roleService.remove(+id);
   }
-
-  @AuthorizedRoles("ADMIN")
-  @Post("/grant/permission")
-  async grantPermission(@Body() grantPermissionDto: RolePermissionsDto){
-      return await this.roleService.grantPermission(grantPermissionDto);
-  }
-
-  @AuthorizedRoles("ADMIN")
-  @Post("/revoke/permission")
-  async revokePermission(@Body() grantPermissionDto: RolePermissionsDto){
-      return await this.roleService.revokePermission(grantPermissionDto);
-  }
 }

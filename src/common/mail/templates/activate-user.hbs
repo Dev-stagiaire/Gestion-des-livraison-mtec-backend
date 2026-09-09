@@ -38,21 +38,27 @@
 </head>
 <body>
 
-<div class="card">
+    <div class="card">
 
-    <h2>Compte validé</h2>
+        <h2>Activez votre compte</h2>
 
-    <p>Bonjour <strong>{{context.username}}</strong>,</p>
+        <p>Bonjour <strong>{{context.username}}</strong>,</p>
 
-    <p>Votre compte  a été validé avec succès.</p>
+        <p>Votre compte GL Livraison a été créé par un administrateur.</p>
 
-    <p>Vous pouvez désormais vous connecter et utiliser les services de GL Livraison.</p>
+        <p>Pour activer votre compte et accéder à l'application, veuillez définir votre mot de passe en cliquant sur le bouton ci-dessous.</p>
 
-    <div class="footer">
-        GL Livraison
+        <a href="{{context.activationUrl}}" class="button">
+            Activer mon compte
+        </a>
+
+        <p>Ce lien est personnel et temporaire. Si vous n'êtes pas à l'origine de cette demande, vous pouvez ignorer cet email.</p>
+
+        <div class="footer">
+            GL Livraison
+        </div>
+
     </div>
-
-</div>
 
 </body>
 </html>

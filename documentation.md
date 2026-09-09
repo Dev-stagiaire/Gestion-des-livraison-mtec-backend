@@ -107,3 +107,21 @@ On t'appelle quand c'est prêt
   }
 }
 - npm run seed
+
+## GIT
+- git config --global user.name
+- git config --global user.email
+- git config --global --list 
+- brew install gh
+- gh auth login
+[Tu peux supprimer les credentials GitHub enregistrés :]
+- printf "protocol=https\nhost=github.com\n\n" | git credential-osxkeychain erase
+[puis]
+- gh auth setup-git
+- gh auth status
+- git config --global --get credential.helper
+- git remote -v
+## Probleme de permission 
+- ls -ld ~/.config
+[si le root est proprietaire]
+- sudo chown -R "$(whoami)":staff ~/.config

@@ -1,10 +1,11 @@
-import { IsNumber } from "class-validator";
+import { IsArray, IsNumber } from "class-validator";
+import { Permission } from "src/permission/entities/permission.entity";
 
 export class RolePermissionsDto{
 
     @IsNumber()
     role_id: number;
 
-    @IsNumber()
-    permission_id: number;
+    @IsArray()
+    permissions: Permission[];
 }

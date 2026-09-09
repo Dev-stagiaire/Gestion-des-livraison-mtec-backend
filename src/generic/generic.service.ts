@@ -142,7 +142,6 @@ export class Generic{
 
         const source_keys = Object.keys(source);
         const dto_keys = Object.keys(dto);
-        const dto_values = Object.values(dto);
         for(const dto_key of dto_keys){
             for(const source_key of source_keys){
                 if (dto_key == source_key) {

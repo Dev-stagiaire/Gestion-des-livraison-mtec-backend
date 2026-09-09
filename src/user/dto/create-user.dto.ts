@@ -5,21 +5,10 @@ export class CreateUserDto {
         @IsString()
         first_name: string;
 
-        @IsOptional()
-        @IsString()
-        last_name?: string;
-
         @IsString()
         @IsEmail()
         @MinLength(6)
         email: string;
-
-        @IsString()
-        avatar_url: string
-
-        @IsString()
-        @IsStrongPassword()
-        password: string;
 
         @IsString()
         phone: string;
