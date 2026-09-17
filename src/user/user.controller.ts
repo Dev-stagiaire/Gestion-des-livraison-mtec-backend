@@ -15,6 +15,7 @@ import { FilterUserDto } from './dto/filter-user.dto';
 import { CreateMailDto } from 'src/common/mail/dto/create-mail.dto';
 import { MailService } from 'src/common/mail/mail.service';
 import { QueryDto } from 'src/common/dto/query.dto';
+import { ActiveUserAccountDto } from './dto/active-user-account.dto';
 
 @Controller('/user')
 export class UserController {
@@ -96,6 +97,11 @@ export class UserController {
     return this.userService.changePassword(id, token);
   }
 
+  @Public()
+  @Post("/active/account/:id")
+  async activateAccount(@Param('id', ParseIntPipe ) id: number,@Query('token') token: string, @Body() activeUserAccountDto: ActiveUserAccountDto){
+      this.userService.activateUserAccount(id, token, activeUserAccountDto);
+  }
 
 
 }

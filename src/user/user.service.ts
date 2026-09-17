@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, InternalServerErrorException, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, InternalServerErrorException, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ValidateUserDto } from './dto/validate-user.dto';
@@ -17,6 +17,7 @@ import { FilterUserDto } from './dto/filter-user.dto';
 import { CreateMailDto } from 'src/common/mail/dto/create-mail.dto';
 import { QueryDto } from 'src/common/dto/query.dto';
 import { UserResponseDto } from 'src/auth/dto/user-response.dto';
+import { ActiveUserAccountDto } from './dto/active-user-account.dto';
 
 @Injectable()
 export class UserService {
@@ -53,6 +54,7 @@ export class UserService {
 
           let user = new User();
           user = this.generic.transfert(user, createUserDto);
+          user.password = await this.generic.hasher(process.env.JWT_SECRET || "testkjasldfhbsclawhejfgjsbclawhfjkbedc");
           if (createUserDto.role_id) {
               const role = await this.roleService.findById(createUserDto.role_id);
               user.role = role;
@@ -60,19 +62,9 @@ export class UserService {
           user.is_active = false;
 
           const user_saved = await this.userRepository.save(user);
-          const template = "activate-user";
-          const subject = "Activez votre compte";
-          const context = {
-              "username": user_saved.first_name,
-              "activationUrl": process.env.BASE_URL + `/users/active/account/${user_saved.id}`,
-          }
+          const url = process.env.BASE_URL + `/user/active/account/${user_saved.id}?token=`
 
-          const createMailDto = new CreateMailDto();
-          createMailDto.sendTo = user_saved.email;
-          createMailDto.subject = subject;
-          createMailDto.template = template;
-          createMailDto.context = context;
-          return this.mailService.sendMail(createMailDto);
+          return this.SendVerificationLink(user_saved.id, "item", "Activate_account", url,  user_saved.email);
         
       } catch (error) {
           Logger.error(error);
@@ -246,6 +238,8 @@ export class UserService {
 
   async findUserResetTokens(user: User, raison: string): Promise<ResetTokens | null>{
 
+    console.log(user.id);
+    console.log(raison);
     return await this.resetTokensRepository.findOne({
         where: {
           user: { id: user.id},
@@ -318,6 +312,13 @@ export class UserService {
               username: user.first_name,
               reset_url: url,
           };
+        case "Activate_account":
+          template = "activate-user";
+          subject = "Activez votre compte";
+          context = {
+              "username": user.first_name,
+              "activationUrl": url,
+          }
         break;
 
         default:
@@ -395,9 +396,9 @@ export class UserService {
   async changeMail(id: number, otp_token: string){
 
     let user: User | null = await this.findById(id);
-      if (!user) {
-          throw new NotFoundException("Utilisateur introuvable");
-      }
+    if (!user) {
+        throw new NotFoundException("Utilisateur introuvable");
+    }
 
     const otp_value = await this.macthOtp(user, otp_token, "change_mail");
     if (otp_value.valid) {
@@ -419,6 +420,44 @@ export class UserService {
     else{
         throw new NotFoundException("Token not found");
     }
+  }
+
+  async activateUserAccount(id: number, token: string, activateUserAccoutDto: ActiveUserAccountDto){
+      
+     let user: User | null = await this.findById(id);
+      if (!user) {
+          throw new NotFoundException("Utilisateur introuvable");
+      }
+
+      const otp_value = await this.macthOtp(user, token, "Activate_account");
+      if (otp_value.valid) {
+
+
+          const user_exist = await this.userRepository.findOne({
+              where: { id: otp_value.user_tokens_id || 0}
+          });
+
+          await this.resetTokensRepository.manager.transaction(async (manager) => {
+            console.dir(user_exist)
+              if (user_exist) {
+                  if (activateUserAccoutDto.password1 === activateUserAccoutDto.password2) {
+                      user_exist.password = await this.generic.hasher(activateUserAccoutDto.password1);
+                      user_exist.is_active= true;
+                      await manager.save(user);
+                      await manager.delete(this.resetTokensRepository.target, otp_value.user_tokens_id);
+                  }
+                  else{
+                    throw new BadRequestException("Passwords not match");
+                  }
+              }
+              else{
+                throw new NotFoundException("User not found !");
+              }
+          })
+      }
+      else{
+          throw new NotFoundException("Token not found");
+      }
   }
 
 

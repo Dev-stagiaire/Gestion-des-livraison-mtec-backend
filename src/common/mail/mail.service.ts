@@ -9,6 +9,7 @@ export class MailService {
     constructor(private readonly mailerService: MailerService) {};
 
     async sendMail(createMailDto: CreateMailDto): Promise<SentMessageInfo>{
+        console.dir(createMailDto);
         try {
             if (typeof createMailDto.context === "string") {
                 createMailDto.context = JSON.parse(createMailDto.context);

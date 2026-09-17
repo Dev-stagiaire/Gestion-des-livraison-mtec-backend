@@ -28,6 +28,10 @@ export class RoleService {
 
   ){}
 
+  async activationAccount(createRoleDto: CreateRoleDto){
+      
+  }
+
   async create(createRoleDto: CreateRoleDto): Promise<Role> {
     let role = new Role();
     role = this.generic.transfert(role, createRoleDto);

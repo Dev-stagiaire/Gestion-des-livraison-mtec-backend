@@ -14,12 +14,12 @@ import { MailService } from './common/mail/mail.service';
 import { ConfigModule } from '@nestjs/config';
 import { AuthGuard } from './auth/guards/auth.guard';
 import { APP_GUARD } from '@nestjs/core';
-import { JwtService } from '@nestjs/jwt';
 import { PermissionsGuard } from './auth/guards/permissions.guard';
 import { RolesGuard } from './auth/guards/roles.guard';
 import { join } from 'path';
-import strict from 'assert/strict';
 import { Generic } from './generic/generic.service';
+import { DeliveryNoteModule } from './delivery-note/delivery-note.module';
+import { VehicleModule } from './vehicule/vehicle.module';
 
 @Module({
   imports: [AuthModule, UserModule, UserModule,
@@ -65,6 +65,8 @@ import { Generic } from './generic/generic.service';
     PermissionModule,
     MailModule,
     PdfModule,
+    DeliveryNoteModule,
+    VehicleModule,
   ],
   controllers: [AppController],
   providers: [AppService, MailService,Generic,

@@ -24,11 +24,26 @@ https://docs.nestjs.com/techniques/database
 ## REMARQUE
 [] Izay zavatra ampiasaina anaty module iray dia verifiena hoe efa importer ao anatin'ilay module mapisa ve ..ex: services (providers), dependences, ...
 
+## GUARD
+Ao anaty app.module.ts => lasa appliquer amn routes rehetra io guard io !!!!
+providers: [
+  {
+    provide: APP_GUARD,
+    useClass: AuthGuard,
+  },
+]
+
 ## Postgres CLI
 - brew services start postgresql@18
 - psql -U postgres
 -  \c glivraison
-
+[en cas d erreur : Unable to connect to the database]
+=> - brew services stop postgresql@18
+   - pg_ctl -D /usr/local/var/postgresql@18 stop
+   - pg_ctl -D /usr/local/var/postgresql@18 status
+   - kill -9 pid ( raha misy mi-run)
+   - brew services start postgresql@18
+   
 ## Docker [chartdb]
 - open -a Docker 
 - docker images                 # voir les images
@@ -69,6 +84,9 @@ in nest-cli :
 - verifier JWT => npm list @nestjs/jwt
 [CONFIG]
 - npm i --save @nestjs/config => creer .env file
+[AXIOS]
+- npm i --save @nestjs/axios axios
+- npm i axios 
 
 ## Synchrone
 Commander
@@ -119,7 +137,7 @@ On t'appelle quand c'est prêt
 [puis]
 - gh auth setup-git
 - gh auth status
-- git config --global --get credential.helper
+- git config --global --get credential.helpers
 - git remote -v
 ## Probleme de permission 
 - ls -ld ~/.config

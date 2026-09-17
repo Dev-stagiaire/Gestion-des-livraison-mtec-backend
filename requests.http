@@ -20,13 +20,17 @@ Content-Type: application/json
 
 ### SEND MAIL OK
 POST http://localhost:3000/send/mail
-Content-Type: application/x-www-form-urlencoded
+Content-Type: application/json
 
-
-sendTo=mihavanona@gmail.com
-&subject=Activation de votre compte
-&template=activate-user
-&context={ "username": "Cah Myam", "activationUrl": "http://localhost:5173/login"}
+{
+  "sendTo": "mihavanona@gmail.com",
+  "subject": "Activation de votre compte",
+  "template": "activate-user",
+  "context": {
+    "username": "Cah Myam",
+    "activationUrl": "http://localhost:5173/login"
+  }
+}
 
 
 ### CREATE ROLE OK
@@ -174,4 +178,20 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuY
 ### FIND BY EMAIL OK
 GET http://localhost:3000/user/find?email=tsantaranaivoson.orange@gmail.com
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODc1NjEwODIsImV4cCI6MTc4NzU2NDY4Mn0.-nGJbv9GY-5-r7BNeTroi22JFwQGuQnQvkL926JuJkM
+
+###
+
+GET http://localhost:3000/vehicle/all
+Content-Type: application/x-www-form-urlencoded
+
+url=https://www.m-tectracking.mg/api/api.php
+
+###
+
+
+POST http://localhost:3000/user/active/account/23?token=$2b$10$k3iAJRrZA3l7P2FNU7dgJuDxH9oxbUfoADHxYZYeVWLklaeTuduLy
+Content-Type: application/x-www-form-urlencoded
+
+password1=innoventis2026
+password2=innoventis2026
 

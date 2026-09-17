@@ -1,6 +1,6 @@
 import { IsEmail, IsNumber, IsOptional, isString, IsString, IsStrongPassword, MinLength } from "class-validator";
 
-export class activeUserAccountDto {
+export class ActiveUserAccountDto {
 
         @IsString()
         @IsStrongPassword()
