@@ -62,7 +62,7 @@ export class UserService {
           user.is_active = false;
 
           const user_saved = await this.userRepository.save(user);
-          const url = process.env.BASE_URL + `/user/active/account/${user_saved.id}?token=`
+          const url = process.env.BASE_URL + `/activate-user-account?token=`
 
           return this.SendVerificationLink(user_saved.id, "item", "Activate_account", url,  user_saved.email);
         
@@ -70,6 +70,15 @@ export class UserService {
           Logger.error(error);
           throw error;
       }
+  }
+
+  async resendToken(id: number, raison: string){
+    const user = await this.findById(id);
+    if (!user) {
+      throw new ConflictException('User not found');
+    }
+    const url = process.env.BASE_URL + `/activate-user-account?token=`;
+    this.SendVerificationLink(id, "", raison, url, user.email);
   }
 
   async validateUser(user_id: number,validateUserDto: ValidateUserDto): Promise<SentMessageInfo>{
@@ -238,11 +247,23 @@ export class UserService {
 
   async findUserResetTokens(user: User, raison: string): Promise<ResetTokens | null>{
 
-    console.log(user.id);
-    console.log(raison);
     return await this.resetTokensRepository.findOne({
         where: {
           user: { id: user.id},
+          context: raison 
+        },
+        relations: {
+          user: true
+        }
+    })
+    
+  }
+
+   async findUserResetTokensByToken(token: string, raison: string): Promise<ResetTokens | null>{
+
+    return await this.resetTokensRepository.findOne({
+        where: {
+          hash_token: token,
           context: raison 
         },
         relations: {
@@ -316,8 +337,8 @@ export class UserService {
           template = "activate-user";
           subject = "Activez votre compte";
           context = {
-              "username": user.first_name,
-              "activationUrl": url,
+              username: user.first_name,
+              activationUrl: url,
           }
         break;
 
@@ -339,9 +360,9 @@ export class UserService {
   }
 
 
-  async macthOtp(user: User, otp_token: string, raison: string): Promise<MatchOtpResponse>{
+  async macthOtp(otp_token: string, raison: string): Promise<MatchOtpResponse>{
    
-      const user_tokens = await this.findUserResetTokens(user, raison);
+      const user_tokens = await this.findUserResetTokensByToken(otp_token, raison);
       if (!user_tokens) {
           throw new NotFoundException("Aucun token");
       }
@@ -377,7 +398,7 @@ export class UserService {
           throw new NotFoundException("Utilisateur introuvable");
       }
 
-      const otp_value = await this.macthOtp(user, otp_token, "change_password");
+      const otp_value = await this.macthOtp(otp_token, "change_password");
 
       if (otp_value.valid) {
 
@@ -400,7 +421,7 @@ export class UserService {
         throw new NotFoundException("Utilisateur introuvable");
     }
 
-    const otp_value = await this.macthOtp(user, otp_token, "change_mail");
+    const otp_value = await this.macthOtp(otp_token, "change_mail");
     if (otp_value.valid) {
 
         const user_exist = await this.userRepository.findOne({
@@ -422,20 +443,13 @@ export class UserService {
     }
   }
 
-  async activateUserAccount(id: number, token: string, activateUserAccoutDto: ActiveUserAccountDto){
+  async activateUserAccount(token: string, activateUserAccoutDto: ActiveUserAccountDto): Promise<boolean>{
       
-     let user: User | null = await this.findById(id);
-      if (!user) {
-          throw new NotFoundException("Utilisateur introuvable");
-      }
-
-      const otp_value = await this.macthOtp(user, token, "Activate_account");
+      const otp_value = await this.macthOtp(token, "Activate_account");
+      console.dir(otp_value);
       if (otp_value.valid) {
 
-
-          const user_exist = await this.userRepository.findOne({
-              where: { id: otp_value.user_tokens_id || 0}
-          });
+          const user_exist = await this.findById(otp_value.user_tokens_id || 0);
 
           await this.resetTokensRepository.manager.transaction(async (manager) => {
             console.dir(user_exist)
@@ -443,7 +457,7 @@ export class UserService {
                   if (activateUserAccoutDto.password1 === activateUserAccoutDto.password2) {
                       user_exist.password = await this.generic.hasher(activateUserAccoutDto.password1);
                       user_exist.is_active= true;
-                      await manager.save(user);
+                      await manager.save(user_exist);
                       await manager.delete(this.resetTokensRepository.target, otp_value.user_tokens_id);
                   }
                   else{
@@ -454,6 +468,7 @@ export class UserService {
                 throw new NotFoundException("User not found !");
               }
           })
+          return true;
       }
       else{
           throw new NotFoundException("Token not found");

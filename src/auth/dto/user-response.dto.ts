@@ -8,4 +8,5 @@ export class UserResponseDto {
     phone: string;
     avatar_url: string | null;
     role: Role;
+    is_active: boolean;
 }

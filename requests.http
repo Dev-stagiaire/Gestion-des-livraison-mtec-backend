@@ -189,7 +189,7 @@ url=https://www.m-tectracking.mg/api/api.php
 ###
 
 
-POST http://localhost:3000/user/active/account/23?token=$2b$10$k3iAJRrZA3l7P2FNU7dgJuDxH9oxbUfoADHxYZYeVWLklaeTuduLy
+POST http://localhost:3000/user/activate/account?token=$2b$10$J0.2grGTaolYgw7a0BAgH.ojSIlsB5yEbvPCAvnfSFi163d1yFoDq
 Content-Type: application/x-www-form-urlencoded
 
 password1=innoventis2026

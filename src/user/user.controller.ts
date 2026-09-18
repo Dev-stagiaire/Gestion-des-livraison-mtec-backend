@@ -98,9 +98,15 @@ export class UserController {
   }
 
   @Public()
-  @Post("/active/account/:id")
-  async activateAccount(@Param('id', ParseIntPipe ) id: number,@Query('token') token: string, @Body() activeUserAccountDto: ActiveUserAccountDto){
-      this.userService.activateUserAccount(id, token, activeUserAccountDto);
+  @Post("/activate/account")
+  async activateAccount(@Query('token') token: string, @Body() activeUserAccountDto: ActiveUserAccountDto){
+      this.userService.activateUserAccount(token, activeUserAccountDto);
+  }
+
+  @Public()
+  @Get("/resend/token/:id")
+  async resendToken(@Param('id', ParseIntPipe) id: number){
+      this.userService.resendToken(id, "Activate_account");
   }
 
 
