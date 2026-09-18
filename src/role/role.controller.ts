@@ -36,7 +36,7 @@ export class RoleController {
 
   @AuthorizedRoles("ADMIN")
   @Delete('/remove/:id')
-  remove(@Param('id') id: string) {
-    return this.roleService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.roleService.remove(+id);
   }
 }

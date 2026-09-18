@@ -225,14 +225,12 @@ export class UserService {
       if (!user) {
           throw new NotFoundException("Utilisateur introuvable"); 
       } 
+      user = this.generic.transfert(user, updateUserDto);
       if (updateUserDto.role_id) {
           const role = await this.roleService.findById(updateUserDto.role_id);
-          user = this.generic.transfert(user, updateUserDto);
           user.role = role;
-          console.dir(user);
-  
       }
-      return this.userRepository.save(user); 
+      return await this.userRepository.save(user); 
   }
 
   async remove(id: number) {
@@ -242,7 +240,7 @@ export class UserService {
         return false;
       }
       user.is_deleted= true;
-      await this.userRepository.save(user);
+      return await this.userRepository.save(user);
   }
 
   async findUserResetTokens(user: User, raison: string): Promise<ResetTokens | null>{
@@ -343,7 +341,7 @@ export class UserService {
         break;
 
         default:
-          throw new Error("Unknown raison !");
+          throw new BadRequestException("Unknown raison !");
       }
 
       
@@ -379,7 +377,7 @@ export class UserService {
             }; 
         }
         else{
-            throw new Error("Token expired");
+            throw new BadRequestException("Token expired");
         }
       }
       else{
@@ -446,14 +444,26 @@ export class UserService {
   async activateUserAccount(token: string, activateUserAccoutDto: ActiveUserAccountDto): Promise<boolean>{
       
       const otp_value = await this.macthOtp(token, "Activate_account");
-      console.dir(otp_value);
       if (otp_value.valid) {
 
-          const user_exist = await this.findById(otp_value.user_tokens_id || 0);
+        let user_exist = new User();
+        if (otp_value.user_tokens_id) {
+          const reset_token = await this.resetTokensRepository.findOne({ where: { id: otp_value.user_tokens_id} })
+          if (reset_token && reset_token.user) {
+              user_exist = reset_token.user;
+          }
+          else{
+              throw new NotFoundException("User' reset_token not found");
+          }
+        }
+        else{
+            throw new NotFoundException("Reset tokens not found");
+        }
+              
 
           await this.resetTokensRepository.manager.transaction(async (manager) => {
             console.dir(user_exist)
-              if (user_exist) {
+              if (user_exist.id) {
                   if (activateUserAccoutDto.password1 === activateUserAccoutDto.password2) {
                       user_exist.password = await this.generic.hasher(activateUserAccoutDto.password1);
                       user_exist.is_active= true;

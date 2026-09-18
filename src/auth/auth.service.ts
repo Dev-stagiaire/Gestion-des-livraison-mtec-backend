@@ -47,7 +47,7 @@ export class AuthService {
         }
         let userResponseDto = new UserResponseDto();
         userResponseDto = this.generic.transfert(userResponseDto, user_logedin);
-        console.log(userResponseDto);
+        // console.log(userResponseDto);
         return userResponseDto;
     }
 }

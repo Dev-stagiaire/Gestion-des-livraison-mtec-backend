@@ -39,6 +39,7 @@ export class UserController {
   @Get("/find/all")
   async findAll(@Query() queryDto: QueryDto) {
     return await this.userService.findAll(queryDto);
+
   }
 
   @RequiredPermission("READ_USER")
@@ -62,7 +63,7 @@ export class UserController {
   @RequiredPermission("UPDATE_USER")
   @Patch('/update/:id')
   async update(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
-    return await this.userService.update(+id, updateUserDto);
+    return await this.userService.update(id, updateUserDto);
   }
 
   @AuthorizedRoles("ADMIN")
@@ -75,38 +76,38 @@ export class UserController {
   @Patch('/change/email/sendLink/:id')
   async changeEmailLink(@Param('id', ParseIntPipe) id: number, @Body() changeEmailDto: ChangeEmailDto){
       const url = 'http://localhost:3000/user/change/email/'+ id +'?token=';
-      return this.userService.SendVerificationLink(id, changeEmailDto.new_email, "change_mail", url,  changeEmailDto.new_email);
+      return await this.userService.SendVerificationLink(id, changeEmailDto.new_email, "change_mail", url,  changeEmailDto.new_email);
   }
 
   @Public()
   @Get('/change/email/:id')
   async changeMail(@Param('id', ParseIntPipe) id: number,@Query('token') token: string){
-    return this.userService.changeMail(id, token);
+    return await this.userService.changeMail(id, token);
   }
 
   @RequiredPermission("UPDATE_USER")
   @Patch('/change/password/sendLink/:id')
   async changePasswordLink(@Param('id', ParseIntPipe) id: number,@Body() changePasswordUserDto: ChangePasswordUserDto){
       const url = 'http://localhost:3000/user/change/password/'+ id +'?token=';
-      return this.userService.SendVerificationLink(id,changePasswordUserDto.new_password, "change_password", url);
+      return await this.userService.SendVerificationLink(id,changePasswordUserDto.new_password, "change_password", url);
   }
 
   @Public()
   @Get('/change/password/:id')
   async changePassword(@Param('id', ParseIntPipe) id: number,@Query('token') token: string){
-    return this.userService.changePassword(id, token);
+      return await this.userService.changePassword(id, token);
   }
 
   @Public()
   @Post("/activate/account")
   async activateAccount(@Query('token') token: string, @Body() activeUserAccountDto: ActiveUserAccountDto){
-      this.userService.activateUserAccount(token, activeUserAccountDto);
+      return await this.userService.activateUserAccount(token, activeUserAccountDto);
   }
 
   @Public()
   @Get("/resend/token/:id")
   async resendToken(@Param('id', ParseIntPipe) id: number){
-      this.userService.resendToken(id, "Activate_account");
+      return await this.userService.resendToken(id, "Activate_account");
   }
 
 

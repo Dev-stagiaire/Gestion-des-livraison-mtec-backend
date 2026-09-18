@@ -12,31 +12,31 @@ export class PermissionController {
 
   @AuthorizedRoles("ADMIN")
   @Post("/create")
-  create(@Body() createPermissionDto: CreatePermissionDto) {
-    return this.permissionService.create(createPermissionDto);
+  async create(@Body() createPermissionDto: CreatePermissionDto) {
+    return await this.permissionService.create(createPermissionDto);
   }
   
   @Public()
   @Get("/find/all")
-  findAll(@Query() paginationDto: PaginationDto) {
-    return this.permissionService.findAll(paginationDto);
+  async findAll(@Query() paginationDto: PaginationDto) {
+    return await this.permissionService.findAll(paginationDto);
   }
 
   @AuthorizedRoles("ADMIN")
   @Get('/find/:id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.permissionService.findById(+id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return await this.permissionService.findById(+id);
   }
 
   @AuthorizedRoles("ADMIN")
   @Patch('/update/:id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() updatePermissionDto: UpdatePermissionDto) {
-    return this.permissionService.update(+id, updatePermissionDto);
+  async update(@Param('id', ParseIntPipe) id: number, @Body() updatePermissionDto: UpdatePermissionDto) {
+    return await this.permissionService.update(+id, updatePermissionDto);
   }
 
   @AuthorizedRoles("ADMIN")
   @Delete('/delete/:id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.permissionService.remove(+id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    return await this.permissionService.remove(+id);
   }
 }

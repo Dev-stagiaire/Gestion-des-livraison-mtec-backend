@@ -7,7 +7,7 @@ GET http://localhost:3000/metadata/uniques
 ###
 GET  http://localhost:3000/auth/me
 Content-Type: application/x-www-form-urlencoded
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODcxMzQxNTEsImV4cCI6MTc4NzEzNzc1MX0.JnIy5KWxz-YdgAXjQhLUCUr7mKPnbhkfT94Au8_GNu8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODk3MzA2MjksImV4cCI6MTc4OTczNDIyOX0.hKXaC1LCMitCrxj9YpyZdq4mIvHl9L5I7DoaJXB3kwU
 
 ### LOGIN OK
 POST http://localhost:3000/auth/login
@@ -127,14 +127,15 @@ is_active=true
 &role_id=23
 
 ### UPDATE USER OK
-PATCH  http://localhost:3000/user/update/15
+PATCH  http://localhost:3000/user/update/24
 Content-Type: application/x-www-form-urlencoded
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODgzMzIxNzksImV4cCI6MTc4ODMzNTc3OX0.w39DKTUHh-rkfKM_JMFQLtESFu3FLwPkQJOXWsza84w
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODk3MzA2MjksImV4cCI6MTc4OTczNDIyOX0.hKXaC1LCMitCrxj9YpyZdq4mIvHl9L5I7DoaJXB3kwU
 
-first_name=Rakotobe
-&last_name=solonavalona
+first_name=Carino
+&last_name=
 &avatar_url=
 &role_id=22
+&is_active=false
 
 ### CHANGE EMAIL OK
 PATCH  http://localhost:3000/user/change/email/sendLink/15
@@ -160,7 +161,7 @@ GET http://localhost:3000/user/change/password/15?token=$2b$10$e2YmGWid3gls8Hwlq
 ### FIND ALL USERS OK => pagination | filtre | selection
 GET http://localhost:3000/user/find/all?limit=10&offset=0&role=ADMIN&is_active=true
 Content-Type: application/x-www-form-urlencoded
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODc1NjEwODIsImV4cCI6MTc4NzU2NDY4Mn0.-nGJbv9GY-5-r7BNeTroi22JFwQGuQnQvkL926JuJkM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODk3MzYzMjAsImV4cCI6MTc4OTczOTkyMH0.6A_1VRE9MtNRxyRquJu8SS5ZerCgybHlSXt2ebslTlk
 
 
 ### SEARCH USERS OK => pagination | recherche | filtre | selection

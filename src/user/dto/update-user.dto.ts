@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateUserDto } from './create-user.dto';
-import { IsEmail, IsNumber, IsOptional, IsString, IsStrongPassword, MinLength } from 'class-validator';
+import { IsBoolean, IsEmail, IsNumber, IsOptional, IsString, IsStrongPassword, MinLength } from 'class-validator';
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
 
@@ -25,4 +25,7 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
 
             @IsString()
             otp_token?: string
+
+            @IsBoolean()
+            is_active?: boolean;
 }
