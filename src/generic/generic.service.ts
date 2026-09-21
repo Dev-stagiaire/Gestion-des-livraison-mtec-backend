@@ -160,14 +160,17 @@ export class Generic{
         return uniqueColumns;
     }
 
+    toEntity<T extends ObjectLiteral>(item: any, Class: new () => T): T{
+
+        const object = new Class();
+        Object.assign(object, item)
+        return object;
+    }
+
     mapToEntites<T extends ObjectLiteral>(data: any[], Class: new () => T): T[] {
 
         return data.map((item) => {
-
-            const object = new Class();
-            Object.assign(object, item)
-            return object;
-            
+            return this.toEntity(item, Class);
         });
     }
 

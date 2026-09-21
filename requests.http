@@ -180,15 +180,37 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuY
 GET http://localhost:3000/user/find?email=tsantaranaivoson.orange@gmail.com
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODc1NjEwODIsImV4cCI6MTc4NzU2NDY4Mn0.-nGJbv9GY-5-r7BNeTroi22JFwQGuQnQvkL926JuJkM
 
-### FIND ALL VEHICLE
+### FIND ALL VEHICLE OK
 
-GET http://localhost:3000/vehicle/all
+GET http://localhost:3000/vehicle/api/data
 Content-Type: application/x-www-form-urlencoded
 
 endpoint=https://www.m-tectracking.mg/api/api.php
 &api=server
 &key=999517619688722681955019C86A17AD
 &command=GET_USERS_OBJECTS
+
+### PARSE DATA OK
+
+GET http://localhost:3000/vehicle/parse/data
+Content-Type: application/x-www-form-urlencoded
+
+endpoint=https://www.m-tectracking.mg/api/api.php
+&api=server
+&key=999517619688722681955019C86A17AD
+&command=GET_USERS_OBJECTS
+&customer_email=assist.logistique@innoventisgroup.com
+
+### RETRIEVE AND SAVE VEHICLES OK
+
+POST http://localhost:3000/vehicle/retrieve/save/vehicles
+Content-Type: application/x-www-form-urlencoded
+
+endpoint=https://www.m-tectracking.mg/api/api.php
+&api=server
+&key=999517619688722681955019C86A17AD
+&command=GET_USERS_OBJECTS
+&customer_email=assist.logistique@innoventisgroup.com
 
 ### Activate user account OK
 

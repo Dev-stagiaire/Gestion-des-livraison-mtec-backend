@@ -1,9 +1,13 @@
-import { Column, PrimaryColumn } from "typeorm";
+import { BaseEntity } from "src/base.entity";
+import { Customer } from "src/customer/entities/customer.entity";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
 
-export class Vehicle {
+@Entity("vehicle")
+export class Vehicle extends BaseEntity {
 
-    @PrimaryColumn()
-    id: number;
+    @ManyToOne(() => Customer)
+    @JoinColumn({ name: "customer_id"})
+    customer: Customer;
 
     @Column({ nullable: true })
     immatriculation: string;

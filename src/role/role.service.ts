@@ -78,8 +78,6 @@ export class RoleService {
 
   async update(id: number, updateRoleDto: UpdateRoleDto): Promise<Role> {
     try {
-      console.log("PERMISSION IDS :");
-      console.dir(updateRoleDto.permission_ids);
       let role = await this.findById(id);
       const permissions  = await Promise.all(
           updateRoleDto.permission_ids.map((permissionId) => {
@@ -89,8 +87,6 @@ export class RoleService {
       if (role) {
           role.name = updateRoleDto.name;
           role.permissions = permissions;
-          console.log("ROLE TO EDIT");
-          console.dir(role);
           return await this.roleRepository.save(role);
       }
       else{

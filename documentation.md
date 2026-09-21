@@ -106,6 +106,8 @@ On t'appelle quand c'est prêt
 
 => rehefa misy operation qui prend du temps dia async ny fonction
 
+### [Promise.all]
+
 ## Design = Typo , Color, Logo
 - fontswipe
 - colorgen

@@ -7,6 +7,7 @@ import { Vehicle } from './entities/vehicule.entity';
 import { AxiosResponse } from 'axios';
 import { Public } from 'src/common/decorators/public.decorator';
 import { ApiDto } from './dto/api.dto';
+import { ParseDataDto } from './dto/parse-data.dto';
 
 @Controller('vehicle')
 export class VehicleController {
@@ -18,9 +19,21 @@ export class VehicleController {
   }
 
   @Public()
-  @Get("/all")
-  findAll(@Body() apiDto: ApiDto): Promise<Observable<AxiosResponse<Vehicle[]>>> {
-    return this.vehicleService.getData(apiDto);
+  @Get("/api/data")
+  async getApiData(@Body() apiDto: ApiDto): Promise<AxiosResponse<any>> {
+    return await this.vehicleService.getData(apiDto);
+  }
+
+  @Public()
+  @Get("/parse/data")
+  async parseData(@Body() parseDataDto: ParseDataDto): Promise<Vehicle[]> {
+    return await this.vehicleService.parseData(parseDataDto);
+  }
+
+  @Public()
+  @Post("retrieve/save/vehicles")
+  async retrieveSaveVehicles(@Body() parseDataDto: ParseDataDto): Promise<Vehicle[]> {
+    return await this.vehicleService.saveVehicles(parseDataDto);
   }
 
   @Get(':id')

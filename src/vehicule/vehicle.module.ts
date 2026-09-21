@@ -6,6 +6,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Generic } from 'src/generic/generic.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Vehicle } from './entities/vehicule.entity';
+import { CustomerService } from 'src/customer/customer.service';
+import { Customer } from 'src/customer/entities/customer.entity';
 
 @Module({
   imports: [ 
@@ -14,9 +16,10 @@ import { Vehicle } from './entities/vehicule.entity';
       maxRedirects: 5,
     }),
     ConfigModule,
-    TypeOrmModule.forFeature([Vehicle])
+    TypeOrmModule.forFeature([Vehicle, Customer])
   ],
   controllers: [VehicleController],
-  providers: [VehicleService, Generic],
+  providers: [VehicleService, Generic, CustomerService],
+  exports: [TypeOrmModule]
 })
 export class VehicleModule {}
