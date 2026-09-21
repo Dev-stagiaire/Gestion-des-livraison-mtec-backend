@@ -140,7 +140,7 @@ export class Generic{
     transfert<T extends Object, D extends Object>(source: T, dto: D): T{
         
 
-        const source_keys = Object.keys(source);
+        const source_keys = Object.keys(source) as (keyof T)[] ;
         const dto_keys = Object.keys(dto);
         for(const dto_key of dto_keys){
             for(const source_key of source_keys){
@@ -158,6 +158,17 @@ export class Generic{
         const metadata = repository.metadata;
         const uniqueColumns = metadata.uniques.flatMap(unique => unique.columns).map(column => column.propertyName);
         return uniqueColumns;
+    }
+
+    mapToEntites<T extends ObjectLiteral>(data: any[], Class: new () => T): T[] {
+
+        return data.map((item) => {
+
+            const object = new Class();
+            Object.assign(object, item)
+            return object;
+            
+        });
     }
 
 }

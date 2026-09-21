@@ -180,15 +180,17 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuY
 GET http://localhost:3000/user/find?email=tsantaranaivoson.orange@gmail.com
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiQWRtaW4iLCJpYXQiOjE3ODc1NjEwODIsImV4cCI6MTc4NzU2NDY4Mn0.-nGJbv9GY-5-r7BNeTroi22JFwQGuQnQvkL926JuJkM
 
-###
+### FIND ALL VEHICLE
 
 GET http://localhost:3000/vehicle/all
 Content-Type: application/x-www-form-urlencoded
 
-url=https://www.m-tectracking.mg/api/api.php
+endpoint=https://www.m-tectracking.mg/api/api.php
+&api=server
+&key=999517619688722681955019C86A17AD
+&command=GET_USERS_OBJECTS
 
-###
-
+### Activate user account OK
 
 POST http://localhost:3000/user/activate/account?token=$2b$10$J0.2grGTaolYgw7a0BAgH.ojSIlsB5yEbvPCAvnfSFi163d1yFoDq
 Content-Type: application/x-www-form-urlencoded

@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Vehicle } from './entities/vehicule.entity';
 import { AxiosResponse } from 'axios';
 import { Public } from 'src/common/decorators/public.decorator';
+import { ApiDto } from './dto/api.dto';
 
 @Controller('vehicle')
 export class VehicleController {
@@ -18,8 +19,8 @@ export class VehicleController {
 
   @Public()
   @Get("/all")
-  findAll(@Body('url') url: string): Promise<Vehicle[]> {
-    return this.vehicleService.findAll(url);
+  findAll(@Body() apiDto: ApiDto): Promise<Observable<AxiosResponse<Vehicle[]>>> {
+    return this.vehicleService.getData(apiDto);
   }
 
   @Get(':id')

@@ -3,6 +3,9 @@ import { HttpModule, HttpService } from '@nestjs/axios';
 import { VehicleService } from './vehicle.service';
 import { VehicleController } from './vehicle.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { Generic } from 'src/generic/generic.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Vehicle } from './entities/vehicule.entity';
 
 @Module({
   imports: [ 
@@ -10,9 +13,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       timeout: 5000,
       maxRedirects: 5,
     }),
-    ConfigModule
+    ConfigModule,
+    TypeOrmModule.forFeature([Vehicle])
   ],
   controllers: [VehicleController],
-  providers: [VehicleService],
+  providers: [VehicleService, Generic],
 })
 export class VehicleModule {}

@@ -6,13 +6,22 @@ import { catchError, firstValueFrom, Observable } from 'rxjs';
 import { Vehicle } from './entities/vehicule.entity';
 import { AxiosError } from 'axios';
 import { ConfigService } from '@nestjs/config';
+import { ObjectLiteral, Repository } from 'typeorm';
+import { ApiDto } from './dto/api.dto';
+import { AxiosResponse } from 'axios';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Generic } from 'src/generic/generic.service';
 
 @Injectable()
 export class VehicleService {
 
   constructor(
     private readonly httpService: HttpService,
-    private readonly configService: ConfigService
+
+    @InjectRepository(Vehicle)
+    private readonly vehicleRepository: Repository<Vehicle>,
+
+    private readonly generic: Generic
   ) {}
 
   private logger = new Logger(VehicleService.name);
@@ -21,29 +30,38 @@ export class VehicleService {
     return 'This action adds a new vehicule';
   }
 
-  // async findAll(url: string): Observable<AxiosResponse<Vehicle[]>> {
-  async findAll(url: string): Promise<Vehicle[]> {
+  async getData(apiDto: ApiDto): Promise<Observable<AxiosResponse<Vehicle[]>>> {
 
-    console.log(JSON.stringify(url));
-    const apiKey = this.configService.get<string>('API_KEY');
+      const { data } = await firstValueFrom(
+          this.httpService.get(apiDto.endpoint, 
+            {
+              params: {
+                api: apiDto.api,
+                key: apiDto.key,
+                cmd: apiDto.command,
+              },
+            }
+          ).pipe(
+            catchError((error: AxiosError) => {
+              this.logger.error(error.message);
+              throw 'An error happened!';
+            })
+          )
+      );
+      data.map((item) => {
+          this.generic.mapToEntites(item.objects, Vehicle)
+      })
+      return data;
+  }
 
-    const { data } = await firstValueFrom(
-        this.httpService.get(url, 
-          {
-            params: {
-              api: 'server',
-              key: '999517619688722681955019C86A17AD',
-              cmd: 'GET_USERS_OBJECTS',
-            },
-          }
-        ).pipe(
-          catchError((error: AxiosError) => {
-            this.logger.error(error.message);
-            throw 'An error happened!';
-          })
-        )
-    );
-    return data;
+  async findAll(url: string): Promise<Vehicle[]>{
+
+      return await this.vehicleRepository.find();
+  }
+
+
+  async findByOwner(){
+
   }
 
   findOne(id: number) {
