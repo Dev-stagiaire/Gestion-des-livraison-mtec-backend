@@ -145,3 +145,10 @@ On t'appelle quand c'est prêt
 - ls -ld ~/.config
 [si le root est proprietaire]
 - sudo chown -R "$(whoami)":staff ~/.config
+
+
+
+### REACT LEAFLET
+- npm install leaflet react-leaflet
+- npm install -D @types/leaflet
+- import 'leaflet/dist/leaflet.css' in main.tsx

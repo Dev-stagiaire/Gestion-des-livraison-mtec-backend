@@ -47,9 +47,7 @@ export class PermissionService {
     if (!permission) {
         throw NotFoundException;
     }
-    console.dir(updatePermissionDto);
     permission = this.generic.transfert(permission, updatePermissionDto);
-    console.dir(permission);
     return this.permissionRepository.save(permission);
   }
 
