@@ -35,13 +35,9 @@ CREATE TABLE "public"."premission" (
     CONSTRAINT "pk_table_2_id" PRIMARY KEY ("id")
 );
 
-CREATE TABLE "public"."Customer" (
-    "Id" varchar NOT NULL,
-    CONSTRAINT "pk_table_29_id" PRIMARY KEY ("Id")
-);
-
 CREATE TABLE "public"."info_client" (
     "id" int NOT NULL,
+    "customer_id" varchar,
     "user_id" int,
     "name" varchar,
     "company" varchar,
@@ -199,6 +195,7 @@ CREATE TABLE "public"."Item" (
 
 CREATE TABLE "public"."vehicule" (
     "id" int NOT NULL,
+    "client_id" int,
     "immatriculation" varchar,
     "type" int,
     "marque" varchar,
@@ -287,8 +284,8 @@ ALTER TABLE "public"."info_client" ADD CONSTRAINT "fk_info_client_id_commande_cl
 ALTER TABLE "public"."command_status" ADD CONSTRAINT "fk_command_status_id_commande_statut_id" FOREIGN KEY("id") REFERENCES "public"."commande"("statut_id");
 ALTER TABLE "public"."commande" ADD CONSTRAINT "fk_commande_id_livraison_commande_id" FOREIGN KEY("id") REFERENCES "public"."livraison"("commande_id");
 ALTER TABLE "public"."commande" ADD CONSTRAINT "fk_commande_id_produit_commande_commande_id" FOREIGN KEY("id") REFERENCES "public"."produit_commande"("commande_id");
-ALTER TABLE "public"."Customer" ADD CONSTRAINT "fk_Customer_Id_SaleDocument_CustomerId" FOREIGN KEY("Id") REFERENCES "public"."SaleDocument"("CustomerId");
 ALTER TABLE "public"."incident" ADD CONSTRAINT "fk_incident_id_intervention_incident_id" FOREIGN KEY("id") REFERENCES "public"."intervention"("incident_id");
+ALTER TABLE "public"."info_client" ADD CONSTRAINT "fk_info_client_id_vehicule_client_id" FOREIGN KEY("id") REFERENCES "public"."vehicule"("client_id");
 ALTER TABLE "public"."intervention" ADD CONSTRAINT "fk_intervention_id_document_intervention_id" FOREIGN KEY("id") REFERENCES "public"."document_intervention"("id");
 ALTER TABLE "public"."Item" ADD CONSTRAINT "fk_Item_Id_SaleDocumentLine_ItemId" FOREIGN KEY("Id") REFERENCES "public"."SaleDocumentLine"("ItemId");
 ALTER TABLE "public"."livraison_status" ADD CONSTRAINT "fk_livraison_status_id_livraison_statut" FOREIGN KEY("id") REFERENCES "public"."livraison"("statut");
@@ -307,3 +304,4 @@ ALTER TABLE "public"."user" ADD CONSTRAINT "fk_user_id_info_chauffeur_id" FOREIG
 ALTER TABLE "public"."vehicle_status" ADD CONSTRAINT "fk_vehicle_status_id_vehicule_statut" FOREIGN KEY("id") REFERENCES "public"."vehicule"("statut");
 ALTER TABLE "public"."vehicule" ADD CONSTRAINT "fk_vehicule_id_livraison_vehicule_id" FOREIGN KEY("id") REFERENCES "public"."livraison"("vehicule_id");
 ALTER TABLE "public"."vehicule" ADD CONSTRAINT "fk_vehicule_id_incident_vehicule_id" FOREIGN KEY("id") REFERENCES "public"."incident"("vehicule_id");
+ALTER TABLE "public"."info_client" ADD CONSTRAINT "fk_info_client_customer_id_SaleDocument_CustomerId" FOREIGN KEY("customer_id") REFERENCES "public"."SaleDocument"("CustomerId");

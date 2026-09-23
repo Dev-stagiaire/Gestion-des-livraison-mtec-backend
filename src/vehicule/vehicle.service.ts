@@ -5,14 +5,10 @@ import { UpdateVehicleDto } from './dto/update-vehicle.dto';
 import { catchError, firstValueFrom, Observable } from 'rxjs';
 import { Vehicle } from './entities/vehicule.entity';
 import { AxiosError } from 'axios';
-import { ConfigService } from '@nestjs/config';
 import { ObjectLiteral, Repository } from 'typeorm';
 import { ApiDto } from './dto/api.dto';
-import { AxiosResponse } from 'axios';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Generic } from 'src/generic/generic.service';
-import { Customer } from 'src/customer/entities/customer.entity';
-import { CustomerService } from 'src/customer/customer.service';
 import { ParseDataDto } from './dto/parse-data.dto';
 
 @Injectable()
@@ -24,9 +20,7 @@ export class VehicleService {
     @InjectRepository(Vehicle)
     private readonly vehicleRepository: Repository<Vehicle>,
 
-    private readonly generic: Generic,
-
-    private readonly customerService: CustomerService
+    private readonly generic: Generic
   ) {}
 
   private logger = new Logger(VehicleService.name);
@@ -77,16 +71,7 @@ export class VehicleService {
             `Customer ${parseDataDto.customer_email} not found`
         );
     }
-    const customer = this.generic.toEntity(item.info, Customer);
-    let exist = await this.customerService.findByEmail(customer?.email);
-    if (!exist) {
-      exist = await this.customerService.save(customer);
-    }
-    const result = Object.values(item.objects).map((vehicle: any) => ({
-        ...vehicle,
-        customer: exist,
-    }));
-    const vehicles = this.generic.mapToEntites(result, Vehicle);
+    const vehicles = this.generic.mapToEntites(item.objects, Vehicle);
     return vehicles;
   }
 

@@ -1,68 +1,63 @@
 import { BaseEntity } from "src/base.entity";
-import { Customer } from "src/customer/entities/customer.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
 
 @Entity("vehicle")
 export class Vehicle extends BaseEntity {
 
-    @ManyToOne(() => Customer)
-    @JoinColumn({ name: "customer_id"})
-    customer: Customer;
+    @Column({ nullable: true })
+    immatriculation!: string;
 
     @Column({ nullable: true })
-    immatriculation: string;
+    type!: number;
 
     @Column({ nullable: true })
-    type: number;
-
-    @Column({ nullable: true })
-    marque: string;
+    marque!: string;
 
     @Column({ name: "charge supportée", nullable: true })
-    charge_supportee: string;
+    charge_supportee!: string;
 
     @Column({ nullable: true })
-    consommation: string;
+    consommation!: string;
 
     @Column({ nullable: true })
-    statut: number;
+    statut!: number;
 
     @Column({ type: "bigint", nullable: true })
-    odo: number;
+    odo!: number;
 
     @Column({ nullable: true })
-    name: string;
+    name!: string;
 
     @Column({ nullable: true })
-    imei: string;
+    imei!: string;
 
     @Column({ nullable: true })
-    port: string;
+    port!: string;
 
     @Column({ nullable: true })
-    ip: string;
+    ip!: string;
 
     @Column({ nullable: true })
-    active: boolean;
+    active!: boolean;
 
     @Column({ nullable: true })
-    expire: boolean;
+    expire!: boolean;
 
     @Column({ nullable: true })
-    expire_dt: Date;
+    expire_dt!: Date;
 
     @Column({ nullable: true })
-    device: string;
+    device!: string;
 
     @Column({ nullable: true })
-    sim_number: string;
+    sim_number!: string;
 
     @Column({ nullable: true })
-    model: string;
+    model!: string;
 
     @Column({ nullable: true })
-    vin: string;
+    vin!: string;
 
     @Column({ nullable: true })
-    plate_number: string;
+    plate_number!: string;
 }

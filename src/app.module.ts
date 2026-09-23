@@ -20,7 +20,6 @@ import { join } from 'path';
 import { Generic } from './generic/generic.service';
 import { DeliveryNoteModule } from './delivery-note/delivery-note.module';
 import { VehicleModule } from './vehicule/vehicle.module';
-import { CustomerModule } from './customer/customer.module';
 
 @Module({
   imports: [AuthModule, UserModule, UserModule,
@@ -68,7 +67,6 @@ import { CustomerModule } from './customer/customer.module';
     PdfModule,
     DeliveryNoteModule,
     VehicleModule,
-    CustomerModule,
   ],
   controllers: [AppController],
   providers: [AppService, MailService,Generic,
