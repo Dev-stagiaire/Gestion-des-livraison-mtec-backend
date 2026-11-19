@@ -18,4 +18,7 @@ export abstract class BaseEntity{
     @DeleteDateColumn()
     deleted_at: Date;
 
+    @Column({name: 'created_by', nullable: true})
+    createdBy: number
+
 }

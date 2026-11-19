@@ -2,10 +2,10 @@ import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { Column, DataSource, EntityTarget, FindOptionsRelations, FindOptionsWhere, ILike, Like, ObjectLiteral, Repository, Unique } from "typeorm";
 import * as bcrypt from 'bcrypt';
 import { randomInt } from "crypto";
-import { AppService } from "src/app.service";
-import { PaginationDto } from "src/common/dto/pagination.dto";
-import { UserResponseDto } from "src/auth/dto/user-response.dto";
-import { AppDataSource } from "src/database/data.source";
+import { AppService } from "../app.service";
+import { PaginationDto } from "../common/dto/pagination.dto";
+import { UserResponseDto } from "../auth/dto/user-response.dto";
+import { AppDataSource } from "../database/data.source";
 
 @Injectable()
 export class Generic{
@@ -116,7 +116,7 @@ export class Generic{
     async genericFindAll<T extends ObjectLiteral, D extends ObjectLiteral>(
         paginationDto: PaginationDto,
         repository: Repository<T>,
-        relations: FindOptionsRelations<T>,
+        relations?: FindOptionsRelations<T>,
         responseDto?: D,): Promise<{}> {
 
         const [data, total] = await repository.findAndCount({

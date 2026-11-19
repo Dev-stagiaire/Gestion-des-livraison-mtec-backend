@@ -5,11 +5,13 @@ import { UpdateVehicleDto } from './dto/update-vehicle.dto';
 import { catchError, firstValueFrom, Observable } from 'rxjs';
 import { Vehicle } from './entities/vehicule.entity';
 import { AxiosError } from 'axios';
-import { ObjectLiteral, Repository } from 'typeorm';
+import { FindOptionsRelations, MoreThan, Repository } from 'typeorm';
 import { ApiDto } from './dto/api.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Generic } from 'src/generic/generic.service';
+import { Generic } from '../generic/generic.service';
 import { ParseDataDto } from './dto/parse-data.dto';
+import { QueryDto } from '../common/dto/query.dto';
+import { CommonService } from '../common/common.service';
 
 @Injectable()
 export class VehicleService {
@@ -20,7 +22,9 @@ export class VehicleService {
     @InjectRepository(Vehicle)
     private readonly vehicleRepository: Repository<Vehicle>,
 
-    private readonly generic: Generic
+    private readonly generic: Generic,
+
+    private readonly commonService: CommonService
   ) {}
 
   private logger = new Logger(VehicleService.name);
@@ -29,15 +33,26 @@ export class VehicleService {
     return 'This action adds a new vehicule';
   }
 
-  async getData(apiDto: ApiDto): Promise<any> {
+  async getData(): Promise<any> {
+
+      const mtecParameters = [
+        "MTEC_ENDPOINT",
+        "MTEC_API",
+        "MTEC_COMMAND",
+        "MTEC_KEY"
+      ]
+
+      const [endpoint, api, command, key] = await Promise.all(
+            mtecParameters.map((name) => this.commonService.getConfig(name)) 
+      );
 
       const response = await firstValueFrom(
-          this.httpService.get(apiDto.endpoint, 
+          this.httpService.get(endpoint, 
             {
               params: {
-                api: apiDto.api,
-                key: apiDto.key,
-                cmd: apiDto.command,
+                api: api,
+                key: key,
+                cmd: command,
               },
             }
           ).pipe(
@@ -59,10 +74,12 @@ export class VehicleService {
     apiDto.command = parseDataDto.command;
     apiDto.key = parseDataDto.key;
 
-    const data  = await this.getData(apiDto);
+    const filter = await this.commonService.getConfig("MTEC_FILTER");
+
+    const data  = await this.getData();
 
     const item = data.find((item) => {
-      return  item?.email === parseDataDto.customer_email.trim();   
+      return  item?.email === filter.trim();   
     });
 
 
@@ -80,18 +97,12 @@ export class VehicleService {
       return await this.vehicleRepository.save(vehicles);
   }
 
-  async findAll(url: string): Promise<Vehicle[]>{
-
-      return await this.vehicleRepository.find();
+  async findAll(queryDto: QueryDto): Promise<{}>{
+      return await this.generic.genericFindAll(queryDto, this.vehicleRepository);
   }
 
-
-  async findByOwner(){
-
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} vehicule`;
+  async findOne(id: number) {
+      return await this.vehicleRepository.findOne({ where: {id: id} });
   }
 
   update(id: number, updateVehicleDto: UpdateVehicleDto) {

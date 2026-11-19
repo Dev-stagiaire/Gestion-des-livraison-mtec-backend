@@ -3,18 +3,18 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
-import { AuthGuard } from 'src/auth/guards/auth.guard';
-import { Public } from 'src/common/decorators/public.decorator';
-import { AuthorizedRoles } from 'src/common/decorators/roles.decorator';
-import { RequiredPermission } from 'src/common/decorators/required.permission.decorator';
+import { AuthGuard } from '../auth/guards/auth.guard';
+import { Public } from '../common/decorators/public.decorator';
+import { AuthorizedRoles } from '../common/decorators/roles.decorator';
+import { RequiredPermission } from '../common/decorators/required.permission.decorator';
 import { ChangeEmailDto } from './dto/change-email.dto';
 import { ChangePasswordUserDto } from './dto/change-password-user.dto';
-import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { PaginationDto } from '../common/dto/pagination.dto';
 import { ValidateUserDto } from './dto/validate-user.dto';
 import { FilterUserDto } from './dto/filter-user.dto';
-import { CreateMailDto } from 'src/common/mail/dto/create-mail.dto';
-import { MailService } from 'src/common/mail/mail.service';
-import { QueryDto } from 'src/common/dto/query.dto';
+import { CreateMailDto } from '../common/mail/dto/create-mail.dto';
+import { MailService } from '../common/mail/mail.service';
+import { QueryDto } from '../common/dto/query.dto';
 import { ActiveUserAccountDto } from './dto/active-user-account.dto';
 
 @Controller('/user')

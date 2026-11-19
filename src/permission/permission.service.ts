@@ -5,8 +5,8 @@ import { Permission } from './entities/permission.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsRelations, Repository } from 'typeorm';
 import { retry } from 'rxjs';
-import { PaginationDto } from 'src/common/dto/pagination.dto';
-import { Generic } from 'src/generic/generic.service';
+import { Generic } from '../generic/generic.service';
+import { PaginationDto } from '../common/dto/pagination.dto';
 
 @Injectable()
 export class PermissionService {

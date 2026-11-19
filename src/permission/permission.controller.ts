@@ -2,9 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Query 
 import { PermissionService } from './permission.service';
 import { CreatePermissionDto } from './dto/create-permission.dto';
 import { UpdatePermissionDto } from './dto/update-permission.dto';
-import { AuthorizedRoles } from 'src/common/decorators/roles.decorator';
-import { PaginationDto } from 'src/common/dto/pagination.dto';
-import { Public } from 'src/common/decorators/public.decorator';
+import { AuthorizedRoles } from '../common/decorators/roles.decorator';
+import { Public } from '../common/decorators/public.decorator';
+import { PaginationDto } from '../common/dto/pagination.dto';
 
 @Controller('permission')
 export class PermissionController {

@@ -5,9 +5,10 @@ import { UpdateVehicleDto } from './dto/update-vehicle.dto';
 import { Observable } from 'rxjs';
 import { Vehicle } from './entities/vehicule.entity';
 import { AxiosResponse } from 'axios';
-import { Public } from 'src/common/decorators/public.decorator';
+import { Public } from '../common/decorators/public.decorator';
 import { ApiDto } from './dto/api.dto';
 import { ParseDataDto } from './dto/parse-data.dto';
+import { QueryDto } from '../common/dto/query.dto';
 
 @Controller('vehicle')
 export class VehicleController {
@@ -21,7 +22,7 @@ export class VehicleController {
   @Public()
   @Get("/api/data")
   async getApiData(@Body() apiDto: ApiDto): Promise<AxiosResponse<any>> {
-    return await this.vehicleService.getData(apiDto);
+    return await this.vehicleService.getData();
   }
 
   @Public()
@@ -36,17 +37,21 @@ export class VehicleController {
     return await this.vehicleService.saveVehicles(parseDataDto);
   }
 
-  @Get(':id')
+  @Get("find/all")
+  async findAll(@Query() queryDto: QueryDto): Promise<{}>{
+      return await this.vehicleService.findAll(queryDto);
+  }
+  @Get('find/:id')
   findOne(@Param('id') id: string) {
     return this.vehicleService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Patch('update/:id')
   update(@Param('id') id: string, @Body() updateVehicleDto: UpdateVehicleDto) {
     return this.vehicleService.update(+id, updateVehicleDto);
   }
 
-  @Delete(':id')
+  @Delete('delete/:id')
   remove(@Param('id') id: string) {
     return this.vehicleService.remove(+id);
   }

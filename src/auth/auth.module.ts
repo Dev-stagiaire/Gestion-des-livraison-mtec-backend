@@ -3,13 +3,13 @@ import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './auth.controller';
-import { UserModule } from 'src/user/user.module';
+import { UserModule } from '../user/user.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { UserService } from 'src/user/user.service';
-import { MailService } from 'src/common/mail/mail.service';
-import { Generic } from 'src/generic/generic.service';
-import { RoleService } from 'src/role/role.service';
-import { PermissionService } from 'src/permission/permission.service';
+import { UserService } from '../user/user.service';
+import { MailService } from '../common/mail/mail.service';
+import { Generic } from '../generic/generic.service';
+import { RoleService } from '../role/role.service';
+import { PermissionService } from '../permission/permission.service';
 
 @Module({
   imports: [

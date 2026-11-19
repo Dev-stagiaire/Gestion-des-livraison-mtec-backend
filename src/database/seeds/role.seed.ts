@@ -1,7 +1,7 @@
-import { Generic } from "src/generic/generic.service";
-import { Role } from "src/role/entities/role.entity";
 import { DataSource } from "typeorm";
 import { Seeder } from "typeorm-extension"
+import { Generic } from "../../generic/generic.service";
+import { Role } from "../../role/entities/role.entity";
 
 export default class RoleSeed implements Seeder{
 

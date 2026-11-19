@@ -12,7 +12,6 @@ export async function run(){
     const adminSeed = new AdminSeed();
 
     await AppDataSource.initialize();
-    console.log("tonga eto"); 
 
     await roleSeed.run(AppDataSource);
 

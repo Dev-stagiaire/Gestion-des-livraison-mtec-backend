@@ -1,5 +1,5 @@
 import { IsArray, IsNumber } from "class-validator";
-import { Permission } from "src/permission/entities/permission.entity";
+import { Permission } from "../../permission/entities/permission.entity";
 
 export class RolePermissionsDto{
 

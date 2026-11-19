@@ -36,6 +36,7 @@ providers: [
 ## Postgres CLI
 - brew services start postgresql@18
 - psql -U postgres
+- \l
 -  \c glivraison
 [en cas d erreur : Unable to connect to the database]
 => - brew services stop postgresql@18
@@ -43,9 +44,10 @@ providers: [
    - pg_ctl -D /usr/local/var/postgresql@18 status
    - kill -9 pid ( raha misy mi-run)
    - brew services start postgresql@18
-   
+
 ## Docker [chartdb]
 - open -a Docker 
+- docker desktop restart
 - docker images                 # voir les images
 - docker ps -a                  # voir les conteneurs
 
@@ -152,3 +154,66 @@ On t'appelle quand c'est prêt
 - npm install leaflet react-leaflet
 - npm install -D @types/leaflet
 - import 'leaflet/dist/leaflet.css' in main.tsx
+
+### OSRM SERVEUR DE ROUTAGE
+- [prerequis] : Docker [docker --version, docker compose version]
+- Telecharger les données OpenStreetMap de Madagascar (Données cartographiques format .osm.pbf) pour OSRM
+- mkdir osrm-data | cd osrm-data => curl -L -o madagascar-latest.osm.pbf https://download.geofabrik.de/africa/madagascar-latest.osm.pbf
+- docker run --rm -t -v "$(pwd):/data" osrm/osrm-backend \
+  osrm-extract -p /opt/car.lua /data/madagascar-latest.osm.pbf
+
+=> transformer les données OpenStreetMap brutes en données compréhensibles par OSRM.
+
+### =>
+  docker run → crée et lance temporairement un conteneur Docker.
+  --rm → supprime le conteneur une fois terminé. Les fichiers générés restent, car ils sont dans ton dossier partagé.
+  -t → permet d'avoir l'affichage du traitement dans le terminal.
+  -v "$(pwd):/data" → partage ton dossier actuel osrm-data avec le conteneur sous /data.
+  osrm/osrm-backend → l'image Docker contenant OSRM.
+  osrm-extract → commande OSRM qui analyse le fichier OSM.
+  -p /opt/car.lua → indique à OSRM d'utiliser le profil voiture.
+  /data/madagascar-latest.osm.pbf → le fichier Madagascar que tu viens de télécharger.
+
+- docker run --rm -t -v "$(pwd):/data" osrm/osrm-backend osrm-partition /data/madagascar-latest.osrm
+
+=> osrm-partition va découper le réseau routier en plusieurs zones/partitions. (reseau organisé en partitions)
+
+### => 
+  ...
+  osrm-partition → partitionne les données
+
+- docker run --rm -t -v "$(pwd):/data" osrm/osrm-backend osrm-customize /data/madagascar-latest.osrm
+
+=> osrm-customize calcule/prépare les coûts de déplacement sur les partitions créées précédemment.
+
+### => 
+  osrm-partition = organise le réseau.
+  osrm-customize = prépare les calculs de routage sur ce réseau organisé.
+
+- Dans osrm-data, exécute :
+  - docker run --rm -t -p 5000:5000 -v "$(pwd):/data" osrm/osrm-backend osrm-routed --algorithm mld /data/madagascar-latest.osrm
+
+Appel api OSRM ex: http://localhost:5000/route/v1/driving/47.5079,-18.8792;47.5250,-18.9100?overview=false
+
+### => Documentation officielle OSRM — HTTP API
+- https://project-osrm.org/docs/v26.4.0/http
+- https://project-osrm.org/docs/v26.4.0/profiles
+
+
+- docker run --rm -t -v "$(pwd):/data" osrm/osrm-backend \
+  osrm-contract /data/madagascar-latest.osrm
+
+- docker run --rm -t -p 5000:5000 \
+  -v "$(pwd):/data" \
+  osrm/osrm-backend \
+  osrm-routed /data/madagascar-latest.osrm
+
+
+[NESTBUG]
+Le problème est que TypeScript ne charge pas les types Jest, donc describe, it et expect sont inconnus ; la solution est d’ajouter "types": ["node", "jest"] dans compilerOptions de tsconfig.json.
+
+apina anio ao amn tsconfig: 
+ "strict": false,
+  "types": ["node", "jest"],
+
+mampiasa npx satria bloquenle nvm le nest-cli => npx nest g res delivery-note

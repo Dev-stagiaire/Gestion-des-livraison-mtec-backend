@@ -192,7 +192,7 @@ endpoint=https://www.m-tectracking.mg/api/api.php
 
 ### PARSE DATA OK
 
-GET http://localhost:3000/vehicle/parse/data
+GET http://localhost:3001/vehicle/parse/data
 Content-Type: application/x-www-form-urlencoded
 
 endpoint=https://www.m-tectracking.mg/api/api.php
@@ -203,7 +203,7 @@ endpoint=https://www.m-tectracking.mg/api/api.php
 
 ### RETRIEVE AND SAVE VEHICLES OK
 
-POST http://localhost:3000/vehicle/retrieve/save/vehicles
+POST http://localhost:3001/vehicle/retrieve/save/vehicles
 Content-Type: application/x-www-form-urlencoded
 
 endpoint=https://www.m-tectracking.mg/api/api.php

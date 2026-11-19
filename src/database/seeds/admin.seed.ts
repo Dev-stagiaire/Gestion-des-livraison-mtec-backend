@@ -1,9 +1,9 @@
 import { Logger } from "@nestjs/common";
-import { Generic } from "src/generic/generic.service";
-import { Role } from "src/role/entities/role.entity";
-import { User } from "src/user/entities/user.entity";
 import { DataSource } from "typeorm";
 import { Seeder } from "typeorm-extension";
+import { User } from "../../user/entities/user.entity";
+import { Role } from "../../role/entities/role.entity";
+import { Generic } from "../../generic/generic.service";
 
 export default class AdminSeed implements Seeder{
 

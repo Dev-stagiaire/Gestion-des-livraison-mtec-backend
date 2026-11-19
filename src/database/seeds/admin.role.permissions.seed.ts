@@ -1,7 +1,8 @@
-import { Permission } from "src/permission/entities/permission.entity";
-import { Role } from "src/role/entities/role.entity";
+
 import { DataSource } from "typeorm";
 import { Seeder } from "typeorm-extension";
+import { Role } from "../../role/entities/role.entity";
+import { Permission } from "../../permission/entities/permission.entity";
 
 export default class AdminRolePermissions implements Seeder{
 

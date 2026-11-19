@@ -31,4 +31,27 @@ export class DeliveryNoteController {
   remove(@Param('id') id: string) {
     return this.deliveryNoteService.remove(+id);
   }
+
+  @Post('sync/run')
+async runSync() {
+  await this.deliveryNoteService.sync();
+  return this.deliveryNoteService.syncStatus();
+}
+
+@Post('sync/start')
+start() {
+  this.deliveryNoteService.startSync();
+  return this.deliveryNoteService.syncStatus();
+}
+
+@Post('sync/stop')
+stop() {
+  this.deliveryNoteService.stopSync();
+  return this.deliveryNoteService.syncStatus();
+}
+
+@Get('sync/status')
+status() {
+  return this.deliveryNoteService.syncStatus();
+}
 }

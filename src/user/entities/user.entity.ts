@@ -1,6 +1,9 @@
-import { BaseEntity } from "src/base.entity";
-import { Role } from "src/role/entities/role.entity";
-import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from "typeorm";
+import { BaseEntity } from "../../base.entity";
+import { Role } from "../../role/entities/role.entity";
+import { Driver } from "../../drivers/entities/driver.entity";
+import { Customer } from "../../customer/entities/customer.entity";
 
 @Entity("users")
 export class User extends BaseEntity{
@@ -37,5 +40,10 @@ export class User extends BaseEntity{
     password_changed_at: Date;
 
 
+    @OneToOne(() => Driver)
+    driver: Driver | null;
+
+    @OneToOne(() => Customer)
+    customer: Customer | null;
 
 }

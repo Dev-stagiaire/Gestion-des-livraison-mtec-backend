@@ -2,10 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Query 
 import { RoleService } from './role.service';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
-import { AuthorizedRoles } from 'src/common/decorators/roles.decorator';
-import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { AuthorizedRoles } from '../common/decorators/roles.decorator';
+import { PaginationDto } from '../common/dto/pagination.dto';
 import { RolePermissionsDto } from './dto/role_permissions.dto';
-import { Public } from 'src/common/decorators/public.decorator';
+import { Public } from '../common/decorators/public.decorator';
 
 @Controller('role')
 export class RoleController {

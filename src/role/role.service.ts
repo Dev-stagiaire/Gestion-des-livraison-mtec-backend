@@ -4,11 +4,11 @@ import { UpdateRoleDto } from './dto/update-role.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsRelations, Repository } from 'typeorm';
 import { Role } from './entities/role.entity';
-import { AppService } from 'src/app.service';
-import { Generic } from 'src/generic/generic.service';
-import { PaginationDto } from 'src/common/dto/pagination.dto';
-import { Permission } from 'src/permission/entities/permission.entity';
-import { PermissionService } from 'src/permission/permission.service';
+import { AppService } from '../app.service';
+import { Generic } from '../generic/generic.service';
+import { PaginationDto } from '../common/dto/pagination.dto';
+import { Permission } from '../permission/entities/permission.entity';
+import { PermissionService } from '../permission/permission.service';
 import { RolePermissionsDto } from './dto/role_permissions.dto';
 import { permission } from 'process';
 

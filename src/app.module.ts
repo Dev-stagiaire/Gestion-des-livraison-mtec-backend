@@ -19,11 +19,17 @@ import { RolesGuard } from './auth/guards/roles.guard';
 import { join } from 'path';
 import { Generic } from './generic/generic.service';
 import { DeliveryNoteModule } from './delivery-note/delivery-note.module';
-import { VehicleModule } from './vehicule/vehicle.module';
+import { VehicleModule } from './vehicle/vehicle.module';
+import { MissionModule } from './mission/mission.module';
+import { DriversModule } from './drivers/drivers.module';
+import { CustomerModule } from './customer/customer.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [AuthModule, UserModule, UserModule,
 
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -67,6 +73,11 @@ import { VehicleModule } from './vehicule/vehicle.module';
     PdfModule,
     DeliveryNoteModule,
     VehicleModule,
+    MissionModule,
+    DriversModule,
+    CustomerModule,
+    DeliveryNoteModule,
+    CommonModule,
   ],
   controllers: [AppController],
   providers: [AppService, MailService,Generic,

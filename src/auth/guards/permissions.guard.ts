@@ -1,10 +1,10 @@
 import { CanActivate, ExecutionContext, Injectable, NotFoundException } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { Reflector } from '@nestjs/core';
-import { PERMISSION_KEY } from "src/common/decorators/required.permission.decorator";
 import { permission } from "process";
 import { dir } from "console";
-import { UserService } from "src/user/user.service";
+import { UserService } from "../../user/user.service";
+import { PERMISSION_KEY } from "../../common/decorators/required.permission.decorator";
 
 @Injectable()
 export class PermissionsGuard implements CanActivate{

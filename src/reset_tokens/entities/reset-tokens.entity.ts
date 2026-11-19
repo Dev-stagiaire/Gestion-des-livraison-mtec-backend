@@ -1,8 +1,8 @@
 import { IsDate, IsString } from "class-validator";
-import { BaseEntity } from "src/base.entity";
-import { User } from "src/user/entities/user.entity";
 import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 import { Timestamp } from "typeorm/driver/mongodb/bson.typings.js";
+import { BaseEntity } from "../../base.entity";
+import { User } from "../../user/entities/user.entity";
 
 @Entity("reset_tokens")
 export class ResetTokens extends BaseEntity{
